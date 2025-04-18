@@ -1,0 +1,8 @@
+com/fiap/safeville/security/SecurityConfig.class
+com/fiap/safeville/SafeVilleApplication.class
+com/fiap/safeville/controller/CrimeApiController.class
+com/fiap/safeville/dto/CrimeDTO.class
+com/fiap/safeville/controller/WebController.class
+com/fiap/safeville/service/CrimeService.class
+com/fiap/safeville/model/Crime.class
+com/fiap/safeville/repository/CrimeRepository.class
