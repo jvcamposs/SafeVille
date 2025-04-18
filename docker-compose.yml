@@ -1,11 +1,10 @@
-
-version: '3'
+version: '3.8'
 services:
   database:
     image: oracleinanutshell/oracle-xe-11g
     environment:
-      - ORACLE_ALLOW_REMOTE=true
-      - ORACLE_DISABLE_ASYNCH_IO=true
+      ORACLE_ALLOW_REMOTE: "true"
+      ORACLE_DISABLE_ASYNCH_IO: "true"
     ports:
       - "1521:1521"
 
@@ -15,3 +14,8 @@ services:
       - "8080:8080"
     depends_on:
       - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@database:1521:XE
+      SPRING_DATASOURCE_USERNAME: system
+      SPRING_DATASOURCE_PASSWORD: oracle
+    command: ["java", "-jar", "/app/safeville.jar"]
