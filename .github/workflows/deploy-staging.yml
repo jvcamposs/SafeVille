@@ -1,36 +1,33 @@
-name: Deploy para Azure - Staging
+name: Deploy to Staging
 
 on:
   push:
     branches:
-      - staging
+      - develop
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Login no Azure
+      - name: Log in to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Docker login no ACR
-        run: |
-          az acr login --name safevilleacr2025
+      - name: Log in to ACR
+        run: az acr login --name safevilleacr2025
 
-      - name: Build e push da imagem Docker
+      - name: Build and push Docker image
         run: |
           docker build -t safevilleacr2025.azurecr.io/safeville:staging .
           docker push safevilleacr2025.azurecr.io/safeville:staging
 
-      - name: Atualiza container no WebApp
-        run: |
-          az webapp config container set \
-            --name safeville-staging-webapp \
-            --resource-group safeville-rg \
-            --docker-custom-image-name safevilleacr2025.azurecr.io/safeville:staging \
-            --docker-registry-server-url https://safevilleacr2025.azurecr.io
+      - name: Deploy to Azure Web App (Staging)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: safeville-staging-webapp
+          images: safevilleacr2025.azurecr.io/safeville:staging
