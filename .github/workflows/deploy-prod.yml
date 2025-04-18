@@ -19,15 +19,17 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Log in to ACR
-        run: az acr login --name safevilleacr2025
+        run: |
+          az acr login --name safevilleacr2025
 
       - name: Build and push Docker image
         run: |
           docker build -t safevilleacr2025.azurecr.io/safeville:prod .
           docker push safevilleacr2025.azurecr.io/safeville:prod
 
-      - name: Deploy to Azure Web App (Production)
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: safeville-webapp-prod
+          app-name: safeville-prod
+          slot-name: production
           images: safevilleacr2025.azurecr.io/safeville:prod
