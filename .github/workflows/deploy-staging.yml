@@ -1,35 +1,50 @@
-name: Deploy to Production
+name: Deploy to Staging
 
 on:
   push:
     branches:
-      - main
+      - staging
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Log in to Azure
+      - name: Login no Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Log in to ACR
+      - name: Login no Azure Container Registry (ACR)
         run: |
-          az acr login --name safevilleacr2025
+          echo "${{ secrets.REGISTRY_PASSWORD }}" \
+            | docker login sfvilleacr2025.azurecr.io \
+              -u sfvilleacr2025 --password-stdin
 
-      - name: Build and push Docker image
+      - name: Build da imagem Docker (staging)
         run: |
-          docker build -t safevilleacr2025.azurecr.io/safeville:prod .
-          docker push safevilleacr2025.azurecr.io/safeville:prod
+          docker build -t sfvilleacr2025.azurecr.io/safeville:staging .
 
-      - name: Deploy to Azure Web App
+      - name: Push da imagem para o ACR
+        run: |
+          docker push sfvilleacr2025.azurecr.io/safeville:staging
+
+      - name: Deploy para o Azure Web App (Staging)
         uses: azure/webapps-deploy@v2
         with:
-          app-name: safeville-prod
-          slot-name: production
-          images: safevilleacr2025.azurecr.io/safeville:prod
+          app-name: safeville-staging-webapp
+          images: sfvilleacr2025.azurecr.io/safeville:staging
+
+      - name: Ajustar porta de escuta (se necessário)
+        run: |
+          az webapp config appsettings set \
+            --name safeville-staging-webapp \
+            --resource-group sfville \
+            --settings WEBSITES_PORT=8181
