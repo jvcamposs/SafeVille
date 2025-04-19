@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 name: CI/CD SafeVille
 
 on:
@@ -10,10 +11,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup JDK 17
+=======
+name: CI/CD - SafeVille
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+>>>>>>> 1a1d24d (Configura pipeline CI/CD completo)
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
+<<<<<<< HEAD
       - name: Build with Maven
         run: mvn clean package -DskipTests
       - name: Build Docker image
@@ -55,3 +73,42 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKERHUB_USER }}/safeville:${{ github.sha }}
             docker-compose -f /home/app/production/docker-compose.yml up -d
+=======
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Run tests
+        run: mvn test
+
+  docker-deploy:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: safevilleacrbr2025.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t safevilleacrbr2025.azurecr.io/safevilleweb:prod .
+
+      - name: Push Docker image
+        run: docker push safevilleacrbr2025.azurecr.io/safevilleweb:prod
+
+      - name: Deploy to Azure Container Apps
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          acrName: safevilleacrbr2025
+          resourceGroup: safeville-rg
+          containerAppName: safeville-app
+          imageToDeploy: safevilleacrbr2025.azurecr.io/safevilleweb:prod
+          location: brazilsouth
+          environmentVariables: SPRING_PROFILES_ACTIVE=prod
+>>>>>>> 1a1d24d (Configura pipeline CI/CD completo)

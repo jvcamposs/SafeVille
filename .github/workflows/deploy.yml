@@ -1,0 +1,46 @@
+name: CI/CD SafeVille 🚀
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  safeville-pipeline:
+    runs-on: ubuntu-latest
+    name: SafeVille - CI/CD
+
+    steps:
+      - name: 🧾 Checkout do código
+        uses: actions/checkout@v3
+
+      - name: ☕ Configurar Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: ✅ Etapa 1 - Build com Maven
+        run: mvn clean compile
+
+      - name: ✅ Etapa 2 - Executar Testes (unitários)
+        run: mvn test
+
+      - name: 🐳 Etapa 3 - Docker Build
+        run: docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/safevilleweb:prod .
+
+      - name: 🔐 Login no Azure Container Registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ secrets.REGISTRY_LOGIN_SERVER }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
+
+      - name: 📤 Etapa 4 - Docker Push
+        run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/safevilleweb:prod
+
+      - name: 🚀 Etapa 5 - Deploy no Azure Container App
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+            az containerapp update \
+              --name safeville-app \
+              --resource-group safeville-rg \
+              --image ${{ secrets.REGISTRY_LOGIN_SERVER }}/safevilleweb:prod
