@@ -44,6 +44,11 @@ jobs:
       - name: Push Docker image
         run: docker push safevilleacrbr2025.azurecr.io/safevilleweb:prod
 
+      - name: Azure CLI Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure Container Apps
         uses: azure/container-apps-deploy-action@v1
         with:
