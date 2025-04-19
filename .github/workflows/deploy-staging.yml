@@ -5,10 +5,6 @@ on:
     branches:
       - staging
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -17,24 +13,22 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Login no Azure
+      - name: Login no Azure (Service Principal)
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Login no Azure Container Registry (ACR)
+      - name: Login no ACR
         run: |
           echo "${{ secrets.REGISTRY_PASSWORD }}" \
             | docker login sfvilleacr2025.azurecr.io \
               -u sfvilleacr2025 --password-stdin
 
       - name: Build da imagem Docker (staging)
-        run: |
-          docker build -t sfvilleacr2025.azurecr.io/safeville:staging .
+        run: docker build -t sfvilleacr2025.azurecr.io/safeville:staging .
 
       - name: Push da imagem para o ACR
-        run: |
-          docker push sfvilleacr2025.azurecr.io/safeville:staging
+        run: docker push sfvilleacr2025.azurecr.io/safeville:staging
 
       - name: Deploy para o Azure Web App (Staging)
         uses: azure/webapps-deploy@v2
@@ -42,7 +36,7 @@ jobs:
           app-name: safeville-staging-webapp
           images: sfvilleacr2025.azurecr.io/safeville:staging
 
-      - name: Ajustar porta de escuta (se necessário)
+      - name: Ajustar porta de escuta
         run: |
           az webapp config appsettings set \
             --name safeville-staging-webapp \
