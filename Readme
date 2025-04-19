@@ -1,0 +1,36 @@
+# SafeVille 🚓🛡️
+
+**SafeVille** é uma aplicação voltada para segurança pública, com funcionalidades de mapeamento de crimes, análise de dados e alertas em tempo real. O backend é desenvolvido em **Java com Spring Boot**, utilizando **Docker**, **GitHub Actions** para CI/CD e **Azure Container Registry** e **Azure Container Apps** para o deployment.
+
+---
+
+##  Tecnologias Utilizadas
+
+- Java 17 + Spring Boot
+- Maven
+- Docker
+- Azure Container Registry (ACR)
+- Azure Container Apps
+- GitHub Actions (CI/CD)
+- Banco de Dados Oracle
+- Swagger (documentação de API)
+
+---
+
+##  Como Executar o Projeto Localmente
+
+### Pré-requisitos
+
+- JDK 17
+- Maven
+- Docker
+- Conta no Azure (para deploy)
+- Oracle Client (para acesso ao banco de dados, se necessário)
+
+### Passo a Passo
+
+1. **Clone o repositório:**
+
+```bash
+git clone https://github.com/seu-usuario/safeville.git
+cd safeville
