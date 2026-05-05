@@ -1,0 +1,157 @@
+site_name: "Swift iOS — Do Zero ao Avançado"
+site_url: https://jvcamposs.github.io/safeville/
+repo_url: https://github.com/jvcamposs/safeville
+repo_name: jvcamposs/safeville
+site_description: "Curso completo e gratuito de desenvolvimento iOS com Swift — do básico ao avançado."
+site_author: "jvcamposs"
+
+theme:
+  name: material
+  language: pt
+  palette:
+    - scheme: default
+      primary: blue
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Alternar para modo escuro
+    - scheme: slate
+      primary: blue
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Alternar para modo claro
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: material/apple
+    repo: fontawesome/brands/github
+  favicon: material/apple
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - search.highlight
+    - search.share
+    - toc.follow
+
+plugins:
+  - search:
+      lang: pt
+  - minify:
+      minify_html: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: date
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/jvcamposs/safeville
+      name: Repositório no GitHub
+
+copyright: "© 2025 Swift iOS Course — MIT License"
+
+nav:
+  - "Início": index.md
+  - "Sobre o Curso": sobre.md
+  - "01 · Fundamentos":
+    - "Visão Geral": 01-fundamentos/index.md
+    - "Ambiente de Dev": 01-fundamentos/ambiente.md
+    - "Sintaxe Básica": 01-fundamentos/sintaxe.md
+    - "Funções e Closures": 01-fundamentos/funcoes.md
+    - "Optionals": 01-fundamentos/optionals.md
+    - "Mini-Projeto": 01-fundamentos/projeto.md
+  - "02 · OOP & Protocolos":
+    - "Visão Geral": 02-oop-protocolos/index.md
+    - "Structs e Classes": 02-oop-protocolos/structs-classes.md
+    - "Protocolos": 02-oop-protocolos/protocolos.md
+    - "Generics": 02-oop-protocolos/generics.md
+    - "Mini-Projeto": 02-oop-protocolos/projeto.md
+  - "03 · SwiftUI":
+    - "Visão Geral": 03-swiftui/index.md
+    - "Componentes": 03-swiftui/componentes.md
+    - "Estado e Bindings": 03-swiftui/estado-bindings.md
+    - "Navegação": 03-swiftui/navegacao.md
+    - "Listas e Formulários": 03-swiftui/listas-formularios.md
+    - "Mini-Projeto": 03-swiftui/projeto.md
+  - "04 · UIKit":
+    - "Visão Geral": 04-uikit/index.md
+    - "ViewControllers": 04-uikit/viewcontrollers.md
+    - "Auto Layout": 04-uikit/autolayout.md
+    - "TableViews": 04-uikit/tableviews.md
+    - "Mini-Projeto": 04-uikit/projeto.md
+  - "05 · Arquitetura":
+    - "Visão Geral": 05-arquitetura/index.md
+    - "MVC": 05-arquitetura/mvc.md
+    - "MVVM": 05-arquitetura/mvvm.md
+    - "Clean & VIPER": 05-arquitetura/clean-viper.md
+    - "Mini-Projeto": 05-arquitetura/projeto.md
+  - "06 · Persistência":
+    - "Visão Geral": 06-persistencia/index.md
+    - "UserDefaults": 06-persistencia/userdefaults.md
+    - "Core Data": 06-persistencia/coredata.md
+    - "SwiftData": 06-persistencia/swiftdata.md
+    - "Mini-Projeto": 06-persistencia/projeto.md
+  - "07 · Networking":
+    - "Visão Geral": 07-networking/index.md
+    - "URLSession": 07-networking/urlsession.md
+    - "Async/Await": 07-networking/async-await.md
+    - "Consumindo APIs": 07-networking/consumindo-apis.md
+    - "Mini-Projeto": 07-networking/projeto.md
+  - "08 · Testes":
+    - "Visão Geral": 08-testes/index.md
+    - "Unit Tests": 08-testes/unit-tests.md
+    - "UI Tests": 08-testes/ui-tests.md
+    - "TDD": 08-testes/tdd.md
+    - "Mini-Projeto": 08-testes/projeto.md
+  - "09 · CI/CD & Publicação":
+    - "Visão Geral": 09-cicd-publicacao/index.md
+    - "Fastlane": 09-cicd-publicacao/fastlane.md
+    - "GitHub Actions": 09-cicd-publicacao/github-actions.md
+    - "TestFlight": 09-cicd-publicacao/testflight.md
+    - "Mini-Projeto": 09-cicd-publicacao/projeto.md
+  - "10 · Avançado":
+    - "Visão Geral": 10-avancado/index.md
+    - "Concurrency": 10-avancado/concurrency.md
+    - "Combine": 10-avancado/combine.md
+    - "Performance": 10-avancado/performance.md
+    - "Acessibilidade": 10-avancado/acessibilidade.md
+    - "Widgets": 10-avancado/widgets.md
+    - "Projeto Final": 10-avancado/projeto-final.md
+  - "Recursos":
+    - "Glossário": recursos/glossario.md
+    - "Links Úteis": recursos/links.md
+    - "FAQ": recursos/faq.md
